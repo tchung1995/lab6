@@ -27,6 +27,22 @@ function addProjectDetails(e) {
 	var idNumber = projectID.substr('project'.length);
 
 	console.log("User clicked on project " + idNumber);
+	$.get("/project/" + idNumber, addProjFunc);
+	console.log("URL that I am calling: " + "/project/" + idNumber);
+}
+
+/*create empty callback function slide 41*/
+function addProjFunc(result){
+	console.log(result);
+	var idNumber = result['id'];
+	
+	var projectHTML = '<img src="'+ result['image'] + '" class="detailsImage">' + 
+	'<p>' + result['title'] + '</p>' +  
+	'<p><small>' + result['date'] + '</small></p>' + '<p>' + result['summary'] + '</p>';
+	
+
+	 $("#project" + idNumber +  " .details").html(projectHTML);
+
 }
 
 /*
@@ -35,4 +51,15 @@ function addProjectDetails(e) {
  */
 function randomizeColors(e) {
 	console.log("User clicked on color button");
+	$.get("/palette/", randomColor);
+}
+
+function randomColor(result) {
+	var colors = result['colors']['hex'];
+	$('body').css('background-color', colors[0]);
+    $('.thumbnail').css('background-color', colors[1]);
+    $('h1, h2, h3, h4, h5, h5').css('color', colors[2]);
+    $('p').css('color', colors[3]);
+    $('.project img').css('opacity', .75);
+
 }
